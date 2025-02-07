@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+        Intent intent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                         .setContentTitle("Nowe Powiadomienie dla 4TPE")
                         .setContentText("To jest twoje krótkie powiadomienie")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent)
                         .setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, builder.build());
@@ -81,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-        Intent intent = new Intent(this, MainActivity.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                                 "Grał gangstera dziś ma status frajera\n" +
                                 "Ktoś podał Ci rękę Ty później ją zakułeś\n" +
                                 "\n" ))
-                        .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
