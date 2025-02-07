@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         createNotificationChannel();
-        findViewById(R.id.button1).setOnClickListener(v->sendNotificationLong());
+        findViewById(R.id.button2).setOnClickListener(v->sendNotificationLong());
         createNotificationChannel();
-        findViewById(R.id.button2).setOnClickListener(v->sendNotification());
+        findViewById(R.id.button1).setOnClickListener(v->sendNotification());
         createNotificationChannel();
         findViewById(R.id.button3).setOnClickListener(v->sendNotificationBigPicture());
     }
@@ -65,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.aniel)
                         .setContentTitle("Nowe Powiadomienie dla 4TPE")
-                        .setContentText("To jest twoje powiadomienie")
+                        .setContentText("To jest twoje krótkie powiadomienie")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(2, builder.build());
+        notificationManager.notify(1, builder.build());
     }
     private void sendNotificationLong(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+        Intent intent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -95,10 +100,11 @@ public class MainActivity extends AppCompatActivity {
                                 "Grał gangstera dziś ma status frajera\n" +
                                 "Ktoś podał Ci rękę Ty później ją zakułeś\n" +
                                 "\n" ))
+                        .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(2, builder.build());
     }
     private void sendNotificationBigPicture(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.TIRAMISU){
