@@ -23,6 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "my_channel_id";
+    private int id=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        createNotificationChannel();
+
+        notificationHelper.createNotificationChannels(this);
         findViewById(R.id.button2).setOnClickListener(v->sendNotificationLong());
-        createNotificationChannel();
+
         findViewById(R.id.button1).setOnClickListener(v->sendNotification());
-        createNotificationChannel();
-        findViewById(R.id.button3).setOnClickListener(v->sendNotificationBigPicture());
+
+        findViewById(R.id.button3).setOnClickListener(v->{notificationHelper.sendNotification(notificationHelper.CHANNEL_ID_HIGH, id,this,this,"test","to jest wiadomosc testowa",2, R.drawable.image);
+        id++;});
     }
 
     private void createNotificationChannel(){
@@ -127,4 +130,5 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(3, builder.build());
     }
+
 }
